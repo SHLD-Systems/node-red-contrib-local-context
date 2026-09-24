@@ -22,6 +22,7 @@ module.exports = function (RED) {
                         }
 
                         if (num === 1) {
+                            this.refmap[this.refmap.length - 1] = msg.local
                             this.refmap.push({});
                         }
                         else if (num === 2) {
