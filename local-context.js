@@ -6,41 +6,40 @@ module.exports = function (RED) {
 
         const node = this;
 
-        node.on("input", function (msg, send, done) {
+        node.on("input", function (msg, send, done) 
+        {
 
-            try {
+            try 
+            {
+
+                /*
+                 * Ensure the reference map exists.
+                 */
+                if (!Array.isArray(msg.refmap)) 
+                {
+                    msg.refmap = [];
+                };
 
                 /*
                  * Install the scratchpad() function if it isn't already present.
                  */
-                if (typeof msg.scratchpad !== "function") {
+                if (typeof msg.scratchpad !== "function") 
+                {
 
-                    msg.scratchpad = function scratchpad(num = null) {
-
-                        if (!Array.isArray(this.refmap)) {
-                            this.refmap = [];
-                        }
-
+                    msg.scratchpad = function scratchpad(num = null) 
+                    {
                         if (num === 1) {
-                            this.refmap[this.refmap.length - 1] = msg.local
+                            this.refmap[this.refmap.length - 1] = msg.local;
                             this.refmap.push({});
                         }
                         else if (num === 2) {
                             this.refmap.pop();
-                            msg.local = this.refmap.at(-1);
                         }
                         
                         msg.local = this.refmap.at(-1);
                         return msg.local;
                     };
-                }
-
-                /*
-                 * Ensure the reference map exists.
-                 */
-                if (!Array.isArray(msg.refmap)) {
-                    msg.refmap = [];
-                }
+                };
 
                 /*
                  * Create a new local context.
@@ -49,7 +48,8 @@ module.exports = function (RED) {
 
                 send(msg);
 
-                if (done) {
+                if (done) 
+                {
                     done();
                 }
 
