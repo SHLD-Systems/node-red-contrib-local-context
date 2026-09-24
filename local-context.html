@@ -1,0 +1,74 @@
+<script type="text/javascript">
+    RED.nodes.registerType('local-context', {
+        category: 'function',
+        color: '#23B0E8',
+
+        defaults: {
+            name: {
+                value: ""
+            }
+        },
+
+        inputs: 1,
+        outputs: 1,
+
+        icon: "font-awesome/fa-folder-open",
+
+        label: function () {
+            return this.name || "Local Context";
+        },
+
+        paletteLabel: "Local Context"
+    });
+</script>
+
+
+<script type="text/html" data-template-name="local-context">
+
+    <div class="form-row">
+        <label for="node-input-name">
+            <i class="fa fa-tag"></i>
+            Name
+        </label>
+
+        <input type="text"
+               id="node-input-name"
+               placeholder="Local Context">
+    </div>
+
+</script>
+
+
+<script type="text/html" data-help-name="local-context">
+
+    <p>
+        Creates a new local context on the message.
+    </p>
+
+    <p>
+        If <code>msg.local</code> does not already exist,
+        the node installs the local context function.
+    </p>
+
+    <p>
+        If <code>msg.refmap</code> does not exist,
+        it is initialized as an array.
+    </p>
+
+    <p>
+        The node then calls:
+    </p>
+
+    <pre>msg.local(1)</pre>
+
+    <p>
+        This pushes a new empty object onto <code>msg.refmap</code>.
+    </p>
+
+    <p>
+        The current local context can subsequently be accessed with:
+    </p>
+
+    <pre>msg.local()</pre>
+
+</script>

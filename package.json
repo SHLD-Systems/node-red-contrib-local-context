@@ -1,0 +1,19 @@
+{
+  "name": "node-red-contrib-local-context",
+  "version": "1.0.1",
+  "description": "A lightweight Node-RED package for creating and managing nested local execution contexts directly on message objects using a simple push/pop reference map.",
+  "keywords": [
+    "node-red",
+    "local-context",
+    "context",
+    "refspec"
+  ],
+  "author": "",
+  "license": "MIT",
+  "node-red": {
+    "nodes": {
+      "local-context": "local-context.js",
+      "end-local-context": "end-local-context.js"
+    }
+  }
+}

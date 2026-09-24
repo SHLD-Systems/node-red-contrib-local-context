@@ -1,0 +1,121 @@
+<script type="text/javascript">
+    RED.nodes.registerType('end-local-context', {
+        category: 'function',
+        color: '#E823A3',
+
+        defaults: {
+            name: {
+                value: ""
+            },
+
+            mode: {
+                value: "pop",
+                required: true
+            }
+        },
+
+        inputs: 1,
+        outputs: 1,
+
+        icon: "font-awesome/fa-sign-out",
+
+        label: function () {
+
+            if (this.name) {
+                return this.name;
+            }
+
+            if (this.mode === "terminate") {
+                return "End Local Context (Terminate)";
+            }
+
+            return "End Local Context (Pop)";
+        },
+
+        paletteLabel: "End Local Context"
+    });
+</script>
+
+
+<script type="text/html" data-template-name="end-local-context">
+
+    <div class="form-row">
+
+        <label for="node-input-mode">
+            <i class="fa fa-cog"></i>
+            Action
+        </label>
+
+        <select id="node-input-mode">
+
+            <option value="pop">
+                Pop local context
+            </option>
+
+            <option value="terminate">
+                Terminate all local context
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="form-row">
+
+        <label for="node-input-name">
+            <i class="fa fa-tag"></i>
+            Name
+        </label>
+
+        <input type="text"
+               id="node-input-name"
+               placeholder="End Local Context">
+
+    </div>
+
+</script>
+
+
+<script type="text/html" data-help-name="end-local-context">
+
+    <p>
+        Terminates a local context created by the
+        <b>Local Context</b> node.
+    </p>
+
+    <h3>Pop local context</h3>
+
+    <p>
+        Calls:
+    </p>
+
+    <pre>msg.local(2)</pre>
+
+    <p>
+        This removes the latest object from
+        <code>msg.refmap</code>.
+    </p>
+
+    <p>
+        The <code>msg.local</code> function and the remaining
+        <code>msg.refmap</code> stay available.
+    </p>
+
+    <h3>Terminate all local context</h3>
+
+    <p>
+        Completely removes:
+    </p>
+
+    <pre>
+delete msg.local;
+delete msg.refmap;
+    </pre>
+
+    <p>
+        This returns the message to its state before a
+        <b>Local Context</b> was created.
+    </p>
+
+</script>
