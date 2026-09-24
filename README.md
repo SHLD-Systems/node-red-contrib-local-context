@@ -7,7 +7,7 @@
  - **Local Context** — creates a new local scratchpad layer.
 - **End Local Context** — removes the current layer or completely terminates the local context system.
 
- The current scratchpad can be accessed from a Function node using `msg.local()`.
+ The current scratchpad can be accessed from a Function node using `msg.scratchpad()`, or more easily via msg.local which holds an updated reference to the newest item in msg.refmap.
 
  ## Why local contexts?
 
@@ -119,13 +119,13 @@ After:
  The nodes manage the lifetime of the local contexts. A Function node can access the currently active scratchpad using:
 
 ```
-msg.local()
+msg.local
 ```
 
  For example:
 
 ```
-const local = msg.local();
+const local = msg.local;
 
 local.counter = 10;
 local.name = "example";
@@ -134,13 +134,13 @@ local.name = "example";
  The next Function node can access the same scratchpad:
 
 ```
-const local = msg.local();
+const local = msg.local;
 
 node.warn(local.counter);
 node.warn(local.name);
 ```
 
- The important distinction is that `msg.local()` is primarily an **access mechanism**. The **Local Context** and **End Local Context** nodes should be used to create and remove context layers.
+ The important distinction is that `msg.local` is primarily an **access mechanism**. The **Local Context** and **End Local Context** nodes should be used to create and remove context layers.
 
  ## Nested scratchpads
 
@@ -158,7 +158,7 @@ node.warn(local.name);
                       │
                       ▼
                  Function
-                msg.local()
+                msg.local
                       │
                       ▼
                  Local Context
@@ -170,7 +170,7 @@ node.warn(local.name);
                       │
                       ▼
                  Function
-                msg.local()
+                msg.local
                       │
                       ▼
              End Local Context
@@ -184,23 +184,23 @@ node.warn(local.name);
  For example, the outer Function node might store:
 
 ```
-msg.local().value = "outer";
+msg.local.value = "outer";
 ```
 
  After creating an inner context, another Function node can use:
 
 ```
-msg.local().value = "inner";
+msg.local.value = "inner";
 ```
 
- While the inner context is active, `msg.local()` refers to the inner scratchpad.
+ While the inner context is active, `msg.local` refers to the inner scratchpad.
 
  After the **End Local Context → Pop local context** node executes, the outer scratchpad becomes current again.
 
  Therefore:
 
 ```
-msg.local().value
+msg.local.value
 ```
 
  again refers to the `"outer"` value.
@@ -219,7 +219,7 @@ msg.local().value
 │ Function        │
 │                 │
 │ local =         │
-│ msg.local()     │
+│ msg.local     │
 │                 │
 │ local.user = {} │
 └───────┬─────────┘
@@ -234,7 +234,7 @@ msg.local().value
 │ Function        │
 │                 │
 │ local =         │
-│ msg.local()     │
+│ msg.local     │
 │                 │
 │ local.result=.. │
 └───────┬─────────┘
@@ -265,7 +265,7 @@ Local Context
 Create scratchpad
       │
       ▼
-Use msg.local() from Function nodes
+Use msg.local from Function nodes
       │
       ▼
 Local Context

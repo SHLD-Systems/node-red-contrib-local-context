@@ -11,11 +11,11 @@ module.exports = function (RED) {
             try {
 
                 /*
-                 * Install the local() function if it isn't already present.
+                 * Install the scratchpad() function if it isn't already present.
                  */
-                if (typeof msg.local !== "function") {
+                if (typeof msg.scratchpad !== "function") {
 
-                    msg.local = function local(num = null) {
+                    msg.scratchpad = function scratchpad(num = null) {
 
                         if (!Array.isArray(this.refmap)) {
                             this.refmap = [];
@@ -25,10 +25,12 @@ module.exports = function (RED) {
                             this.refmap.push({});
                         }
                         else if (num === 2) {
-                            return this.refmap.pop();
+                            this.refmap.pop();
+                            msg.local = this.refmap.at(-1);
                         }
-
-                        return this.refmap.at(-1);
+                        
+                        msg.local = this.refmap.at(-1);
+                        return msg.local;
                     };
                 }
 
@@ -42,7 +44,7 @@ module.exports = function (RED) {
                 /*
                  * Create a new local context.
                  */
-                msg.local(1);
+                msg.scratchpad(1);
 
                 send(msg);
 

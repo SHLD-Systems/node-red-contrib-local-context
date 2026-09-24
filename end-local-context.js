@@ -18,6 +18,7 @@ module.exports = function (RED) {
                      * Completely terminate the local context system.
                      */
                     delete msg.local;
+                    delete msg.scratchpad;
                     delete msg.refmap;
 
                 }
@@ -26,8 +27,8 @@ module.exports = function (RED) {
                     /*
                      * Pop the most recent local context.
                      */
-                    if (typeof msg.local === "function") {
-                        msg.local(2);
+                    if (typeof msg.scratchpad === "function") {
+                        msg.scratchpad(2);
                     }
                 }
 
