@@ -9,6 +9,28 @@ module.exports = function (RED) {
         node.on("input", function (msg, send, done) 
         {
 
+            /*
+            * Define the scratchpad() function.
+            */
+            function scratchpad(num = null) 
+            {
+                if (num === 1) 
+                {
+                    this.refmap.push(msg.local);
+                    msg.local = {};
+                }
+                else if (num === 2) 
+                {
+                    if (this.refmap.length === 0) 
+                    {
+                        delete msg.local;
+                        return null;
+                    }
+                    msg.local = this.refmap.pop();
+                }
+                return msg.local;
+            };
+            
             try 
             {
 
@@ -25,20 +47,7 @@ module.exports = function (RED) {
                  */
                 if (typeof msg.scratchpad !== "function") 
                 {
-
-                    msg.scratchpad = function scratchpad(num = null) 
-                    {
-                        if (num === 1) {
-                            this.refmap[this.refmap.length - 1] = msg.local;
-                            this.refmap.push({});
-                        }
-                        else if (num === 2) {
-                            this.refmap.pop();
-                        }
-                        
-                        msg.local = this.refmap.at(-1);
-                        return msg.local;
-                    };
+                    msg.scratchpad = scratchpad;
                 };
 
                 /*
